@@ -40,17 +40,20 @@ public class Percolation {
         if (row == gridDim) {
             wqu.union(flatIndex, bottomSite);
         }
-        if (isValid(row, (col - 1)) && isOpen(row, (col - 1))) {
-            wqu.union(getFlatIndex(row, (col - 1)), flatIndex);
+
+        int[] hBoundries = { col - 1, col + 1 };
+        int[] vBoundries = { row - 1, row + 1 };
+
+        for (int i = 0; i < hBoundries.length; i++) {
+            if (isValid(row, hBoundries[i]) && isOpen(row, hBoundries[i])) {
+                wqu.union(flatIndex, getFlatIndex(row, hBoundries[i]) - 1);
+            }
         }
-        if (isValid(row, (col + 1)) && isOpen(row, (col + 1))) {
-            wqu.union(getFlatIndex(row, (col + 1)), flatIndex);
-        }
-        if (isValid((row - 1), col) && isOpen((row - 1), col)) {
-            wqu.union(getFlatIndex((row - 1), col), flatIndex);
-        }
-        if (isValid((row + 1), col) && isOpen((row + 1), col)) {
-            wqu.union(getFlatIndex((row + 1), col), flatIndex);
+
+        for (int j = 0; j < vBoundries.length; j++) {
+            if (isValid(vBoundries[j], col) && isOpen(vBoundries[j], col)) {
+                wqu.union(flatIndex, getFlatIndex(vBoundries[j], col) - 1);
+            }
         }
     }
 
